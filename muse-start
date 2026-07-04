@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Get the directory where this script is located
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Get the real directory of this script (resolving symlinks)
+SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
 
 # Check if Spotify app OR librespot is NOT running
 if ! pgrep -i "Spotify" > /dev/null || ! pgrep -x "librespot" > /dev/null; then
