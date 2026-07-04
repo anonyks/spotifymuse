@@ -14,6 +14,7 @@ import { useSearchStore } from '../state/searchStore.ts';
 import { useDeviceStore } from '../state/deviceStore.ts';
 import { useLibraryStore } from '../state/libraryStore.ts';
 import { useStreamStore } from '../state/streamStore.ts';
+import { useVoiceStore } from '../state/voiceStore.ts';
 import { getTheme, DEFAULT_THEME } from '../themes/index.ts';
 
 /**
@@ -41,6 +42,7 @@ const PLAYER_HINTS: KeyHint[] = [
   { key: '+/-', label: 'volume' },
   { key: '/', label: 'search' },
   { key: 'l', label: 'library' },
+  { key: 'v', label: 'voice' },
   { key: 'd', label: 'device' },
   { key: 'q', label: 'quit' },
 ];
@@ -93,6 +95,11 @@ export function App(): React.JSX.Element {
   const startStream = useStreamStore((s) => s.start);
   const stopStream = useStreamStore((s) => s.stop);
 
+  const voiceListening = useVoiceStore((s) => s.listening);
+  const voiceFeedback = useVoiceStore((s) => s.feedback);
+  const toggleVoice = useVoiceStore((s) => s.toggle);
+  const stopVoice = useVoiceStore((s) => s.stop);
+
   useEffect(() => {
     void init();
   }, [init]);
@@ -103,6 +110,7 @@ export function App(): React.JSX.Element {
   }, [status, startStream]);
 
   const quit = (): void => {
+    stopVoice();
     stopStream();
     exit();
   };
@@ -132,6 +140,10 @@ export function App(): React.JSX.Element {
       }
       if (input === 'd') {
         void openDevices();
+        return;
+      }
+      if (input === 'v') {
+        toggleVoice();
         return;
       }
       // With nothing playing, the recently-played list owns navigation keys.
@@ -175,11 +187,13 @@ export function App(): React.JSX.Element {
 
   const statusLabel = !authed
     ? (STATUS_LABEL[status] ?? status)
-    : streamRunning
-      ? '🔊 playing here'
-      : streamInstalled
-        ? 'connected'
-        : 'connected · brew install librespot to play here';
+    : voiceListening
+      ? `🎤 ${voiceFeedback || 'listening…'}`
+      : streamRunning
+        ? '🔊 playing here'
+        : streamInstalled
+          ? 'connected'
+          : 'connected · brew install librespot to play here';
 
   return (
     <ThemeProvider theme={theme}>

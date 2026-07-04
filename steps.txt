@@ -27,6 +27,20 @@ Requires: macOS, Bun, and a Spotify Premium account.
     (Requires Spotify Premium. Skip this and MUSE will
      just control your other Spotify devices instead.)
 
+2c. (Optional) Hands-free voice control — all free/offline:
+
+       brew install whisper-cpp sox
+       mkdir -p ~/.config/muse/models
+       curl -L -o ~/.config/muse/models/ggml-base.en.bin \
+         https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.en.bin
+
+    First mic use: macOS asks for microphone permission
+    for your terminal app — click Allow.
+    In MUSE press  v  to start listening, then say:
+       "muse, play bohemian rhapsody"
+       "muse, pause"   "muse, next"   "muse, louder"
+       "muse, shuffle"
+
 3. Add the redirect URI in your Spotify dashboard:
 
        - Go to  https://developer.spotify.com/dashboard

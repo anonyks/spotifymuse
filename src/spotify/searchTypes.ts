@@ -8,6 +8,7 @@ export interface TrackResult {
   title: string;
   artist: string;
   album: string;
+  albumUri: string | null;
   durationMs: number;
 }
 
@@ -17,7 +18,7 @@ const searchTrackSchema = z.object({
   name: z.string(),
   duration_ms: z.number(),
   artists: z.array(z.object({ name: z.string() })),
-  album: z.object({ name: z.string() }),
+  album: z.object({ name: z.string(), uri: z.string().optional() }),
 });
 
 export const searchResponseSchema = z.object({
@@ -34,6 +35,7 @@ export function normalizeSearch(res: SearchResponse): TrackResult[] {
     title: t.name,
     artist: t.artists.map((a) => a.name).join(', '),
     album: t.album.name,
+    albumUri: t.album.uri ?? null,
     durationMs: t.duration_ms,
   }));
 }

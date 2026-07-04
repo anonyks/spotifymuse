@@ -8,6 +8,7 @@ const mk = (id: string): TrackResult => ({
   title: id,
   artist: 'a',
   album: 'b',
+  albumUri: null,
   durationMs: 1000,
 });
 

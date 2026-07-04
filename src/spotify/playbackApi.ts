@@ -45,11 +45,22 @@ export async function playUris(token: string, uris: string[], deviceId?: string)
   if (!res.ok) throw new Error(`play failed (${res.status})`);
 }
 
-/** Start playback of a context (playlist/album/artist) URI. */
-export async function playContext(token: string, contextUri: string, deviceId?: string): Promise<void> {
+/**
+ * Start playback of a context (playlist/album/artist) URI, optionally starting
+ * at a specific track (offset) so playback continues through the context after.
+ */
+export async function playContext(
+  token: string,
+  contextUri: string,
+  deviceId?: string,
+  offsetUri?: string,
+): Promise<void> {
   const res = await spotifyRequest(token, '/me/player/play', {
     method: 'PUT',
-    body: { context_uri: contextUri },
+    body: {
+      context_uri: contextUri,
+      ...(offsetUri ? { offset: { uri: offsetUri } } : {}),
+    },
     ...(deviceId ? { query: { device_id: deviceId } } : {}),
   });
   if (!res.ok) throw new Error(`play failed (${res.status})`);

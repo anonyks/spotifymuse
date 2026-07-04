@@ -10,7 +10,7 @@ const recentTrackSchema = z.object({
   name: z.string(),
   duration_ms: z.number(),
   artists: z.array(z.object({ name: z.string() })),
-  album: z.object({ name: z.string() }),
+  album: z.object({ name: z.string(), uri: z.string().optional() }),
 });
 
 const recentResponseSchema = z.object({
@@ -35,6 +35,7 @@ export async function getRecentlyPlayed(token: string): Promise<TrackResult[]> {
       title: track.name,
       artist: track.artists.map((a) => a.name).join(', '),
       album: track.album.name,
+      albumUri: track.album.uri ?? null,
       durationMs: track.duration_ms,
     });
   }

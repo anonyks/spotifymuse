@@ -2,6 +2,7 @@
 import { render } from 'ink';
 import { App } from './app/App.tsx';
 import { stopStream } from './services/streamService.ts';
+import { stopListening } from './services/voiceService.ts';
 
 /**
  * Entry point. Enters the alternate screen buffer so MUSE takes over the
@@ -10,8 +11,11 @@ import { stopStream } from './services/streamService.ts';
 
 process.stdout.write('\x1b[?1049h'); // enter alternate screen
 
-// Ensure the embedded librespot device never outlives MUSE.
-const cleanup = (): void => stopStream();
+// Ensure spawned children (librespot, mic capture) never outlive MUSE.
+const cleanup = (): void => {
+  stopStream();
+  stopListening();
+};
 process.on('exit', cleanup);
 process.on('SIGINT', () => process.exit(0));
 process.on('SIGTERM', () => process.exit(0));
@@ -20,5 +24,6 @@ const { waitUntilExit } = render(<App />);
 
 waitUntilExit().then(() => {
   stopStream();
+  stopListening();
   process.stdout.write('\x1b[?1049l'); // leave alternate screen
 });

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import * as playback from '../services/playbackService.ts';
-import { playTrackUri } from '../services/playbackControls.ts';
+import { playTrackInAlbum } from '../services/playbackControls.ts';
 import { clamp } from '../utils/format.ts';
 import type { NowPlaying, QueueItem, RepeatState } from '../spotify/playbackTypes.ts';
 import type { TrackResult } from '../spotify/searchTypes.ts';
@@ -129,7 +129,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
     const { recent, recentSelected } = get();
     const track = recent[recentSelected];
     if (!track) return;
-    await playTrackUri(track.uri);
+    await playTrackInAlbum(track.uri, track.albumUri);
     setTimeout(() => void get().sync(), RESYNC_DELAY_MS);
   },
 }));

@@ -75,7 +75,7 @@ export const useSearchStore = create<SearchState>((set, get) => ({
     const { results, selected } = get();
     const track = results[selected];
     if (!track) return false;
-    const ok = await search.playTrack(track.uri);
+    const ok = await search.playTrack(track);
     if (ok) {
       set({ open: false, mode: 'typing', notice: null });
       return true;

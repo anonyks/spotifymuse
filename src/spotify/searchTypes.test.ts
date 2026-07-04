@@ -24,6 +24,7 @@ test('normalizes track search results', () => {
     title: 'Redbone',
     artist: 'Childish Gambino',
     album: 'Awaken, My Love!',
+    albumUri: null,
     durationMs: 327_000,
   });
 });

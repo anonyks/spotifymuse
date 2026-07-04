@@ -1,6 +1,6 @@
 import { useAuthStore } from '../state/authStore.ts';
 import { searchTracks as apiSearch } from '../spotify/searchApi.ts';
-import { playTrackUri } from './playbackControls.ts';
+import { playTrackInAlbum } from './playbackControls.ts';
 import { logDebug } from '../utils/logger.ts';
 import type { TrackResult } from '../spotify/searchTypes.ts';
 
@@ -21,9 +21,9 @@ export async function searchTracks(query: string): Promise<TrackResult[]> {
   }
 }
 
-/** Plays a track by URI, recovering from "no active device". */
-export function playTrack(uri: string): Promise<boolean> {
-  return playTrackUri(uri);
+/** Plays a track within its album so playback continues afterwards. */
+export function playTrack(track: TrackResult): Promise<boolean> {
+  return playTrackInAlbum(track.uri, track.albumUri);
 }
 
 export type { TrackResult };

@@ -62,3 +62,13 @@ export function playTrackUri(uri: string): Promise<boolean> {
 export function playContextUri(contextUri: string): Promise<boolean> {
   return withDeviceFallback((t, deviceId) => playContext(t, contextUri, deviceId));
 }
+
+/**
+ * Plays a track inside its album so playback continues to the next song
+ * afterwards (like Spotify), instead of looping the single track. Falls back to
+ * the bare track when no album context is available.
+ */
+export function playTrackInAlbum(trackUri: string, albumUri: string | null): Promise<boolean> {
+  if (!albumUri) return playTrackUri(trackUri);
+  return withDeviceFallback((t, deviceId) => playContext(t, albumUri, deviceId, trackUri));
+}
