@@ -39,9 +39,9 @@ Built with TypeScript + [Bun](https://bun.sh) + [Ink](https://github.com/vadimde
 
 ```bash
 bun install
-cp .env.example .env          # add your Spotify Client ID (or MUSE will prompt)
-brew install librespot        # optional: play audio in the terminal
-chmod +x muse-start && sudo ln -s $PWD/muse-start /usr/local/bin/muse
+cp .env.example .env                    # add your Spotify Client ID
+brew install librespot                  # optional: play audio in terminal
+sudo ln -s $PWD/muse-start /usr/local/bin/muse   # make 'muse' global
 ```
 
 Create a Spotify app at [developer.spotify.com/dashboard](https://developer.spotify.com/dashboard)
