@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Check if Spotify app OR librespot is NOT running
+if ! pgrep -i "Spotify" > /dev/null || ! pgrep -x "librespot" > /dev/null; then
+    echo "Starting librespot..."
+    librespot &
+    sleep 2
+fi
+
+# Run muse
+exec bun /Users/admin/Documents/github/spotifymuse/src/index.tsx

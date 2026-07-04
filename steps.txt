@@ -24,6 +24,11 @@ Requires: macOS, Bun, and a Spotify Premium account.
 
     MUSE auto-launches it as a Spotify Connect device
     named "MUSE" and plays through your Mac directly.
+    
+    The `muse` command will automatically check if
+    Spotify or librespot is running, and start librespot
+    if neither is active.
+    
     (Requires Spotify Premium. Skip this and MUSE will
      just control your other Spotify devices instead.)
 
@@ -55,7 +60,15 @@ Requires: macOS, Bun, and a Spotify Premium account.
 
 4. Start MUSE:
 
-       bun start
+       muse
+
+   The `muse` command automatically:
+   - Checks if Spotify or librespot is running
+   - If neither is running, starts librespot
+   - Then launches the MUSE interface
+   
+   (First time? Run from the project folder:
+    bun src/index.tsx  or  muse)
 
 5. Press  ENTER  to connect.
    Your browser opens Spotify -> click "Agree".

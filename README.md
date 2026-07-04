@@ -41,6 +41,7 @@ Built with TypeScript + [Bun](https://bun.sh) + [Ink](https://github.com/vadimde
 bun install
 cp .env.example .env          # add your Spotify Client ID (or MUSE will prompt)
 brew install librespot        # optional: play audio in the terminal
+chmod +x muse-start && sudo ln -s $PWD/muse-start /usr/local/bin/muse
 ```
 
 Create a Spotify app at [developer.spotify.com/dashboard](https://developer.spotify.com/dashboard)
@@ -55,8 +56,13 @@ http://127.0.0.1:8888/callback
 ## Run
 
 ```bash
-bun start        # press Enter to connect, approve in the browser
+muse        # press Enter to connect, approve in the browser
 ```
+
+The `muse` command automatically:
+- Checks if Spotify or librespot is running
+- Starts librespot if neither is active
+- Launches the MUSE interface
 
 ## Controls
 
